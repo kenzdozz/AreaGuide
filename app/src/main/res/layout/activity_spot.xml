@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="com.ahtaya.chidozie.areaguide.SpotActivity">
+
+        <include layout="@layout/toolbar"/>
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/spot_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/noimage"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_16dp">
+
+                    <TextView
+                        android:id="@+id/spot_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="New Shop"
+                        android:textSize="@dimen/txt_26sp" />
+
+                    <TextView
+                        android:id="@+id/spot_vicinity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textAlignment="viewEnd"
+                        tools:text="Vicinity: Nsukka park" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="@dimen/dimen_8dp"
+                        android:background="@color/colorAccent" />
+
+                    <RelativeLayout
+                        android:id="@+id/linlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/opening_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/opening_status" />
+
+                        <TextView
+                            android:id="@+id/open_now"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/opening_status"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dimen_16dp"
+                            android:paddingEnd="@dimen/dimen_16dp"
+                            tools:text="Open"
+                            android:textSize="@dimen/txt_20sp" />
+
+                        <TextView
+                            android:id="@+id/rating_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/rating"
+                            tools:ignore="RelativeOverlap" />
+
+                        <RatingBar
+                            android:id="@+id/rating_bar"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/rating_status"
+                            android:layout_margin="@dimen/dimen_8dp"
+                            android:numStars="5" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:text="@string/loading_distance" />
+
+            <Button
+                android:id="@+id/open_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="26dp"
+                android:layout_gravity="center"
+                android:text="@string/open_map" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

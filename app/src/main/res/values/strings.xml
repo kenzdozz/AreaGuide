@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Area Guide</string>
+    <string name="gps_alert_title">GPS is not Enabled!</string>
+    <string name="gps_alert_msg">Do you want to turn on GPS?</string>
+    <string name="gps_alert_positive">Yes</string>
+    <string name="gps_alert_negative">No</string>
+    <string name="curr_loc_error">Can\'t get current location</string>
+    <string name="enter_area">Enter Area</string>
+    <string name="loading">Loading…</string>
+    <string name="open_opened">Open</string>
+    <string name="open_closed">Closed</string>
+    <string name="unknown_distance">Unknown distance away(click to retry)</string>
+    <string name="distance_error">Can\'t get distance</string>
+    <string name="away">&#160;away.</string>
+    <string name="unknown">Unknown</string>
+    <string name="dial_close">Close</string>
+    <string name="no_conn">No Connection</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="search_hint">PortHarcourt</string>
+    <string name="search_btn">Search</string>
+    <string name="use_my_loc_btn">Use my location</string>
+    <string name="welcome_txt">Welcome to Area Guide \n Search for your AREA</string>
+    <string name="welcome_img_desc">Welcome Image</string>
+    <string name="opening_status">Opening status:</string>
+    <string name="rating">Rating:</string>
+    <string name="loading_distance">loading distance…</string>
+    <string name="open_map">Open map</string>
+    <string name="logo">Logo</string>
+    <string name="about">About</string>
+    <string name="txt_about">Area Guide lets you find places around you current area, or for a searched area.
+        \nIt currently supports three category of places, including restaurants, banks and hospitals.
+        \nIt gives estimated distance to a place from your current location. It also opens up maps to show the location</string>
+    <string name="copyright">AreaGuide \nDeveloped by AhTaYa Group</string>
+    <string name="menu_closer">Closer results</string>
+    <string name="menu_popular">Popular results</string>
+</resources>

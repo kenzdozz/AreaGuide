@@ -1,0 +1,53 @@
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="@dimen/dimen_8dp"
+    android:layout_marginEnd="@dimen/dimen_8dp"
+    android:layout_marginTop="@dimen/dimen_8dp"
+    android:id="@+id/spot_card_shimmer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shimmer_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="13dp">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/spot_image_shimmer"
+                android:layout_width="@dimen/dimen_58dp"
+                android:layout_height="@dimen/dimen_58dp"
+                android:layout_marginEnd="@dimen/dimen_16dp"
+                android:scaleType="centerCrop"
+                android:background="@color/shimm_gray"/>
+
+            <TextView
+                android:id="@+id/spot_name_shimmer"
+                android:layout_width="@dimen/dimen_150dp"
+                android:layout_height="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="@color/shimm_gray"
+                android:layout_toEndOf="@+id/spot_image_shimmer"
+                tools:text="Hello" />
+
+            <TextView
+                android:id="@+id/spot_vicinity"
+                android:layout_width="@dimen/dimen_100dp"
+                android:layout_height="@dimen/dimen_12dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:background="@color/shimm_gray"
+                android:layout_marginStart="@dimen/dimen_8dp"
+                android:layout_toEndOf="@+id/spot_image_shimmer"
+                android:layout_below="@+id/spot_name_shimmer"
+                tools:text="Hello" />
+
+        </RelativeLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</android.support.v7.widget.CardView>

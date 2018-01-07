@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+    </style>
+
+    <style name="TexV">
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MenuB">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+</resources>

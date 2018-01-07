@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:background="@drawable/place3"
+    android:focusableInTouchMode="true"
+    tools:context="com.ahtaya.chidozie.areaguide.MainActivity"
+    android:focusable="true">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/gray"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_26dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_26dp"
+            android:text="@string/welcome_txt"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_26sp" />
+
+        <EditText
+            android:id="@+id/place_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            android:labelFor="@id/place_edit"
+            android:padding="@dimen/dimen_8dp" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_btn" />
+
+        <Button
+            android:id="@+id/get_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/use_my_loc_btn" />
+    </LinearLayout>
+
+</LinearLayout>
