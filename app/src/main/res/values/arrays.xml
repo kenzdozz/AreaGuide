@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="typesDefault">
+        <item>bank</item>
+        <item>hospital</item>
+        <item>restaurant</item>
+    </string-array>
+
+    <string-array name="types">
+        <item>Banks</item>
+        <item>Beauty salon</item>
+        <item>Book store</item>
+        <item>Bus station</item>
+        <item>Cafe</item>
+        <item>Church</item>
+        <item>Gas station</item>
+        <item>Hospitals</item>
+        <item>Park</item>
+        <item>Police</item>
+        <item>Restaurants</item>
+        <item>School</item>
+    </string-array>
+
+    <string-array name="typesValues">
+        <item>bank</item>
+        <item>beauty_salon</item>
+        <item>book_store</item>
+        <item>bus_station</item>
+        <item>cafe</item>
+        <item>church</item>
+        <item>gas_station</item>
+        <item>hospital</item>
+        <item>park</item>
+        <item>police</item>
+        <item>restaurant</item>
+        <item>school</item>
+    </string-array>
+
+    <string-array name="orderBy">
+        <item>Distance</item>
+        <item>Popularity</item>
+    </string-array>
+
+    <string-array name="orderByValues">
+        <item>distance</item>
+        <item>prominence</item>
+    </string-array>
+</resources>

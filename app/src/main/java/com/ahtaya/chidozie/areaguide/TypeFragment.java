@@ -2,7 +2,9 @@ package com.ahtaya.chidozie.areaguide;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -10,8 +12,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -47,17 +47,19 @@ public class TypeFragment extends Fragment {
     ShimmerAdapter shimmerAdapter;
     String lat, lng, radius, rankby, mtype;
     LinearLayout linearLayout;
-    private Gson gson;
-
     //Creates Volley StringRequest, Response.Listener and Response.ErrorListener
     StringRequest stringRequest;
     Response.Listener<String> stringRequestResponse;
     Response.ErrorListener stringRequestError = null;
+    //mResponse holds String response from Volley request to be saved in savedInstances
+    String mResponse;
+    private Gson gson;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_type, container, false);
 
+        super.onCreate(savedInstanceState);
         //Activating menu for fragment
         setHasOptionsMenu(true);
 
@@ -86,14 +88,31 @@ public class TypeFragment extends Fragment {
         //creates new GsonBuilder as gson
         gson = new GsonBuilder().setLenient().create();
 
+        //Initialize radius
+        radius = "50000";
+
+        //Creating SharedPreferences to get rank preference
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String rank = sharedPreferences.getString(getString(R.string.pref_sort_by_key), getString(R.string.sort_by_default));
+
+        //Setting rank to rankby if not null else "distance" to rankby
+        rankby = (rank == null) ? "distance" : (rank.equals("distance")) ? rank : rank + "&radius=" + radius;
+
         //get extras from intent, get @lat and @lng
         Intent i = getActivity().getIntent();
         lat = i.getStringExtra("lat");
         lng = i.getStringExtra("lng");
 
-        //Initialize radius and rankby
-        radius = "50000";
-        rankby = "distance";
+        //Check if extra intent is received and use preference if not
+        if (lat != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Lat", lat);
+            editor.putString("Lng", lng);
+            editor.apply();
+        } else {
+            lat = sharedPreferences.getString("Lat", null);
+            lng = sharedPreferences.getString("Lng", null);
+        }
 
         //API to get #restaurants around the @lat and @lng within the @radius
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
@@ -104,53 +123,9 @@ public class TypeFragment extends Fragment {
 
             @Override
             public void onResponse(String response) {
-
-                //parse String response of String request to the PlaceData class for mapping
-                PlaceData placeData = gson.fromJson(response, PlaceData.class);
-
-                //if status = OK, there is result, else zero result or error
-                if (placeData.status.equals("OK")) {
-
-                    //captures photo_reference for PlaceSpot object
-                    String photo_reference, open_now;
-
-                    // iterates over placeData results to create PlaceSpot objects
-                    for (PlaceData.Results results : placeData.results) {
-                        PlaceData.Geometry geometry = results.geometry;
-                        PlaceData.Location location = geometry.location;
-                        PlaceData.OpeningHours opening_hours = results.opening_hours;
-                        if (results.photos != null) {
-                            PlaceData.Photos photos = results.photos[0];
-                            photo_reference = photos.photo_reference;
-                        } else {
-                            photo_reference = "EMPTY";
-                        }
-                        if (opening_hours == null || opening_hours.open_now == null) {
-                            open_now = getString(R.string.unknown);
-                        } else {
-                            open_now = opening_hours.open_now;
-                        }
-                        //creating placeSpots objects and notifying adapter for changes
-                        placeSpots.add(new PlaceSpot(results.name, results.rating, open_now, results.vicinity, location.lat, location.lng, photo_reference));
-                        spotAdapter.notifyDataSetChanged();
-
-                        //resetting the recyclerView to spotAdapter
-                        recyclerView.setAdapter(spotAdapter);
-                    }
-                } else {
-                    //if no results, alert user to close activity
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setCancelable(false);
-                    builder.setMessage(placeData.status);
-                    builder.setPositiveButton(R.string.dial_close, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            startActivity(i);
-                            dialog.cancel();
-                        }
-                    }).show();
-                }
+                mResponse = response;
+                //parses response and updates UI
+                UpdateUI(response);
             }
         };
         //Creates a Error Listener for the Volley StringRequest
@@ -181,38 +156,83 @@ public class TypeFragment extends Fragment {
 
         //Create the Volley StringRequest
         stringRequest = new StringRequest(Request.Method.GET, url, stringRequestResponse, stringRequestError);
+
+        if (savedInstanceState != null) {
+            mResponse = savedInstanceState.getString("response");
+            rankby = savedInstanceState.getString("rankby");
+            if (mResponse == null || mResponse.isEmpty()) {
+                Volley.newRequestQueue(getActivity()).add(stringRequest);
+                return view;
+            }
+            UpdateUI(mResponse);
+            return view;
+        }
+
         //add the stringRequest to Volley RequestQueue to start request
         Volley.newRequestQueue(getActivity()).add(stringRequest);
 
         return view;
     }
 
-    //Disabling active menu
+    /**
+     * Saving mResponse and rankby in SaveInstanceState
+     */
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-
-        if (rankby.equals("distance")) {
-            menu.getItem(0).setEnabled(false);
-            menu.getItem(1).setEnabled(true);
-        }else {
-            menu.getItem(1).setEnabled(false);
-            menu.getItem(0).setEnabled(true);
-        }
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("response", mResponse);
+        outState.putString("rankby", rankby);
+        super.onSaveInstanceState(outState);
     }
 
-    //Handling menu click
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.distance:
-                ChangeRankby("distance");
-                return true;
-            case R.id.prominence:
-                ChangeRankby("prominence");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    /**
+     * method to Update UI with Volley String response
+     */
+    private void UpdateUI(String response) {
+        //parse String response of String request to the PlaceData class for mapping
+        PlaceData placeData = gson.fromJson(response, PlaceData.class);
+
+        //if status = OK, there is result, else zero result or error
+        if (placeData.status.equals("OK")) {
+
+            //captures photo_reference for PlaceSpot object
+            String photo_reference, open_now;
+
+            // iterates over placeData results to create PlaceSpot objects
+            for (PlaceData.Results results : placeData.results) {
+                PlaceData.Geometry geometry = results.geometry;
+                PlaceData.Location location = geometry.location;
+                PlaceData.OpeningHours opening_hours = results.opening_hours;
+                if (results.photos != null) {
+                    PlaceData.Photos photos = results.photos[0];
+                    photo_reference = photos.photo_reference;
+                } else {
+                    photo_reference = "EMPTY";
+                }
+                if (opening_hours == null || opening_hours.open_now == null) {
+                    open_now = getString(R.string.unknown);
+                } else {
+                    open_now = opening_hours.open_now;
+                }
+                //creating placeSpots objects and notifying adapter for changes
+                placeSpots.add(new PlaceSpot(results.name, results.rating, open_now, results.vicinity, location.lat, location.lng, photo_reference));
+                spotAdapter.notifyDataSetChanged();
+
+                //resetting the recyclerView to spotAdapter
+                recyclerView.setAdapter(spotAdapter);
+            }
+        } else {
+            //if no results, alert user to close activity
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(false);
+            builder.setMessage(placeData.status);
+            builder.setPositiveButton(R.string.dial_close, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
+                    dialog.cancel();
+                }
+            }).show();
         }
     }
 
@@ -224,23 +244,4 @@ public class TypeFragment extends Fragment {
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
 
-    /**
-     * Changing rankby on menu click
-     */
-    public void ChangeRankby(String rank){
-        if (rank.equals("prominence"))
-            rankby = rank + "&radius=50000";
-        else
-            rankby = rank;
-        //setting recyclerView to shimmerAdapter and displaying awaiting spotAdapter to load objects
-        recyclerView.setAdapter(shimmerAdapter);
-        placeSpots.clear();
-        //API to get #restaurants around the @lat and @lng within the @radius
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-                lat + "," + lng + "&rankby=" + rankby + "&type=" + mtype + "&key=AIzaSyC_2SXuauBwziVEyzXs07tStDXH81wsvM8";
-        //Create the Volley StringRequest
-        stringRequest = new StringRequest(Request.Method.GET, url, stringRequestResponse, stringRequestError);
-        //add the stringRequest to Volley RequestQueue to start request
-        Volley.newRequestQueue(getActivity()).add(stringRequest);
-    }
 }

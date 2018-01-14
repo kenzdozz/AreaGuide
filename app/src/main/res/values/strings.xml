@@ -28,10 +28,21 @@
     <string name="open_map">Open map</string>
     <string name="logo">Logo</string>
     <string name="about">About</string>
-    <string name="txt_about">Area Guide lets you find places around you current area, or for a searched area.
-        \nIt currently supports three category of places, including restaurants, banks and hospitals.
-        \nIt gives estimated distance to a place from your current location. It also opens up maps to show the location</string>
-    <string name="copyright">AreaGuide \nDeveloped by AhTaYa Group</string>
-    <string name="menu_closer">Closer results</string>
-    <string name="menu_popular">Popular results</string>
+    <string name="txt_about">
+        Area Guide lets you find places around your current area, or for a searched area. \n
+        \nThis version supports various category of places, including restaurants, banks, book stores, beauty shops, gas stations,
+        hospitals, etc. It allows results to be sorted based on popularity or closeness. \n
+        \nIt gives estimated distance to a place from your current location. It also opens up Google maps to show the place location
+    </string>
+    <string name="copyright">AreaGuide v1.2 \nDeveloped by AhTaYa Group</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_sort_by_key">pref_sort_by_key</string>
+    <string name="pref_types_key">pref_types_key</string>
+    <string name="sort_by_default">distance</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="@string/sort_by_default"
+        android:entries="@array/orderBy"
+        android:entryValues="@array/orderByValues"
+        android:key="@string/pref_sort_by_key"
+        android:title="Sort by" />
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/typesDefault"
+        android:entries="@array/types"
+        android:entryValues="@array/typesValues"
+        android:key="@string/pref_types_key"
+        android:title="Result types" />
+</PreferenceScreen>
